@@ -1,8 +1,16 @@
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { Heart } from "lucide-react";
 import EscapingNoButton from "./EscapingNoButton";
 import { couplePhotos } from "./couplePhotos";
+import {
+  Carousel,
+  type CarouselApi,
+  CarouselContent,
+  CarouselItem,
+  CarouselPrevious,
+  CarouselNext,
+} from "./ui/carousel";
 
 interface ValentineLandingProps {
   onYesClick: () => void;
@@ -10,15 +18,22 @@ interface ValentineLandingProps {
 }
 
 const ValentineLanding = ({ onYesClick, onNoClick }: ValentineLandingProps) => {
+  const [api, setApi] = useState<CarouselApi>();
   const [currentPhoto, setCurrentPhoto] = useState(0);
 
-  // Auto-rotate main photo every 3 seconds
+  // Sync carousel api with current photo state
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentPhoto((prev) => (prev + 1) % couplePhotos.length);
-    }, 3000);
+    if (!api) return;
+    setCurrentPhoto(api.selectedScrollSnap());
+    api.on("select", () => setCurrentPhoto(api.selectedScrollSnap()));
+  }, [api]);
+
+  // Auto-rotate main photo every 3 seconds (loop handles wrap)
+  useEffect(() => {
+    if (!api) return;
+    const interval = setInterval(() => api.scrollNext(), 3000);
     return () => clearInterval(interval);
-  }, []);
+  }, [api]);
 
   // Define scattered positions for photos around the page
   const scatteredPositions = [
@@ -40,7 +55,7 @@ const ValentineLanding = ({ onYesClick, onNoClick }: ValentineLandingProps) => {
       {scatteredPositions.map((pos, index) => (
         <motion.div
           key={index}
-          className={`absolute rounded-full overflow-hidden border-2 border-primary/30 shadow-lg ${pos.size} hidden sm:block`}
+          className={`absolute rounded-2xl overflow-hidden border-2 border-primary/30 shadow-lg ${pos.size} hidden sm:block`}
           style={{
             top: pos.top,
             left: pos.left,
@@ -60,27 +75,55 @@ const ValentineLanding = ({ onYesClick, onNoClick }: ValentineLandingProps) => {
         </motion.div>
       ))}
 
-      {/* Main photo carousel (center) */}
+      {/* Main photo carousel (center) - Embla with peek, rounded rect, Ken Burns */}
       <motion.div
-        className="relative mb-8 z-10"
+        className="relative mb-8 z-10 w-full max-w-sm md:max-w-md lg:max-w-lg"
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.8 }}
       >
-        <div className="w-48 h-48 md:w-64 md:h-64 lg:w-72 lg:h-72 rounded-full overflow-hidden border-4 border-primary/30 shadow-2xl relative">
-          <AnimatePresence mode="wait">
-            <motion.img
-              key={currentPhoto}
-              src={couplePhotos[currentPhoto]}
-              alt="Our memories together"
-              className="w-full h-full object-cover"
-              initial={{ opacity: 0, scale: 1.1 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
-              transition={{ duration: 0.5 }}
-            />
-          </AnimatePresence>
-        </div>
+        <Carousel
+          setApi={setApi}
+          opts={{
+            align: "center",
+            loop: true,
+            dragFree: false,
+          }}
+          className="w-full"
+        >
+          <CarouselContent className="-ml-2 md:-ml-4">
+            {couplePhotos.map((photo, index) => (
+              <CarouselItem
+                key={index}
+                className="pl-2 md:pl-4 basis-[85%] sm:basis-[80%] md:basis-[75%] lg:basis-[70%]"
+              >
+                <div className="relative aspect-[4/3] rounded-2xl overflow-hidden border-4 border-primary/30 shadow-2xl">
+                  <motion.img
+                    src={photo}
+                    alt={`Our memories together ${index + 1}`}
+                    className="absolute inset-0 w-full h-full object-cover"
+                    animate={
+                      index === currentPhoto
+                        ? {
+                            scale: [1, 1.06, 1],
+                            x: [0, 8, 0],
+                            y: [0, 6, 0],
+                          }
+                        : { scale: 1, x: 0, y: 0 }
+                    }
+                    transition={{
+                      duration: 3,
+                      repeat: index === currentPhoto ? Infinity : 0,
+                      ease: "easeInOut",
+                    }}
+                  />
+                </div>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious className="-left-2 md:-left-12 top-1/2 -translate-y-1/2 h-9 w-9 md:h-10 md:w-10 border-primary/30 hover:bg-primary/10 bg-background/80" />
+          <CarouselNext className="-right-2 md:-right-12 top-1/2 -translate-y-1/2 h-9 w-9 md:h-10 md:w-10 border-primary/30 hover:bg-primary/10 bg-background/80" />
+        </Carousel>
         <motion.div
           className="absolute -bottom-2 -right-2 bg-primary rounded-full p-3"
           animate={{ scale: [1, 1.2, 1] }}
@@ -88,13 +131,13 @@ const ValentineLanding = ({ onYesClick, onNoClick }: ValentineLandingProps) => {
         >
           <Heart className="w-6 h-6 text-primary-foreground" fill="currentColor" />
         </motion.div>
-        
+
         {/* Photo indicators */}
         <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 flex gap-1.5 flex-wrap justify-center max-w-48">
           {couplePhotos.map((_, index) => (
             <button
               key={index}
-              onClick={() => setCurrentPhoto(index)}
+              onClick={() => api?.scrollTo(index)}
               className={`w-2 h-2 rounded-full transition-all ${
                 index === currentPhoto ? "bg-primary w-4" : "bg-primary/30"
               }`}
