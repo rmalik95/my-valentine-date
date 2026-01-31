@@ -4,16 +4,13 @@ import FloatingHearts from "@/components/FloatingHearts";
 import ValentineLanding from "@/components/ValentineLanding";
 import ThinkAgainDialog from "@/components/ThinkAgainDialog";
 import YesConfirmation from "@/components/YesConfirmation";
-import EmailForm from "@/components/EmailForm";
 import ReservationConfirmation from "@/components/ReservationConfirmation";
-import { toast } from "sonner";
 
-type Step = "landing" | "yes-confirmation" | "email-form" | "confirmed";
+type Step = "landing" | "yes-confirmation" | "confirmed";
 
 const Index = () => {
   const [currentStep, setCurrentStep] = useState<Step>("landing");
   const [showThinkAgainDialog, setShowThinkAgainDialog] = useState(false);
-  const [userEmail, setUserEmail] = useState("");
 
   const handleYesClick = () => {
     setCurrentStep("yes-confirmation");
@@ -27,16 +24,7 @@ const Index = () => {
     setShowThinkAgainDialog(false);
   };
 
-  const handleContinueToEmail = () => {
-    setCurrentStep("email-form");
-  };
-
-  const handleEmailSubmit = async (email: string) => {
-    setUserEmail(email);
-    // TODO: Implement email and calendar sending with Lovable Cloud
-    toast.success("Reservation confirmed! 💕", {
-      description: "Check your email for confirmation details.",
-    });
+  const handleMakeItOfficial = () => {
     setCurrentStep("confirmed");
   };
 
@@ -66,20 +54,7 @@ const Index = () => {
             exit={{ opacity: 0, y: -50 }}
             transition={{ duration: 0.5 }}
           >
-            <YesConfirmation onContinue={handleContinueToEmail} />
-          </motion.div>
-        )}
-
-        {currentStep === "email-form" && (
-          <motion.div
-            key="email-form"
-            className="min-h-screen flex items-center justify-center px-4 py-12"
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -50 }}
-            transition={{ duration: 0.5 }}
-          >
-            <EmailForm onSubmit={handleEmailSubmit} />
+            <YesConfirmation onContinue={handleMakeItOfficial} />
           </motion.div>
         )}
 
@@ -91,7 +66,7 @@ const Index = () => {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6 }}
           >
-            <ReservationConfirmation email={userEmail} />
+            <ReservationConfirmation />
           </motion.div>
         )}
       </AnimatePresence>
