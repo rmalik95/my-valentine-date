@@ -138,7 +138,7 @@ END:VCALENDAR`;
 
           {/* Action buttons */}
           <motion.div
-            className="flex flex-col sm:flex-row gap-3 mb-8"
+            className="flex flex-col sm:flex-row gap-2 mb-6"
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.9 }}
@@ -147,28 +147,28 @@ END:VCALENDAR`;
               href={generateCalendarLink()}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 px-4 py-3 bg-primary text-primary-foreground rounded-xl hover:bg-primary/90 transition-colors font-body"
+              className="flex items-center justify-center gap-1.5 px-3 py-2 text-sm bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors font-body"
             >
-              <CalendarPlus className="w-5 h-5" />
+              <CalendarPlus className="w-4 h-4" />
               Add to Google Calendar
             </a>
             <button
               onClick={downloadICS}
-              className="flex items-center justify-center gap-2 px-4 py-3 bg-secondary text-secondary-foreground rounded-xl hover:bg-secondary/80 transition-colors font-body"
+              className="flex items-center justify-center gap-1.5 px-3 py-2 text-sm bg-secondary text-secondary-foreground rounded-lg hover:bg-secondary/80 transition-colors font-body"
             >
-              <Download className="w-5 h-5" />
+              <Download className="w-4 h-4" />
               Download Calendar File
             </button>
           </motion.div>
 
           <motion.button
             onClick={downloadReservation}
-            className="w-full flex items-center justify-center gap-2 px-4 py-3 border border-primary/30 text-foreground rounded-xl hover:bg-primary/5 transition-colors font-body mb-6"
+            className="w-full flex items-center justify-center gap-1.5 px-3 py-2 text-sm border border-primary/30 text-foreground rounded-lg hover:bg-primary/5 transition-colors font-body mb-6"
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 1 }}
           >
-            <Download className="w-5 h-5" />
+            <Download className="w-4 h-4" />
             Download Reservation as PDF
           </motion.button>
 
