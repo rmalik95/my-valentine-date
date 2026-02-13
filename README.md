@@ -2,7 +2,7 @@
 
 Ever wanted to ask your crush out for Valentine's Day but didn't know how to make it special? Well, as a web developer, what better way than building a little website just for them?
 
-That's exactly what this is — a sweet, simple interactive page where your significant other clicks through to find out you want them to be your Valentine. No awkward texts. No fumbled words. Just a fun little surprise they won't forget.
+That's exactly what this is, a sweet, simple interactive page where your significant other clicks through to find out you want them to be your Valentine. No awkward texts. No fumbled words. Just a fun little surprise they won't forget.
 
 **Live Demo:** [datevalentine.vercel.app](https://www.datevalentine.vercel.app)
 
@@ -10,7 +10,7 @@ That's exactly what this is — a sweet, simple interactive page where your sign
 
 ## 🚀 Getting Started
 
-Want to clone this and personalise it for your own valentine? You absolutely can. All you need is **Node.js** and **npm** installed on your machine. If you haven't got them yet, the easiest way is via [nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+Want to clone or fork this and personalise it for your own valentine? You absolutely can. All you need is **Node.js** and **npm** installed on your machine. If you haven't got them yet, the easiest way is via [nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
 
 Once you're set up, just follow these steps:
 
@@ -30,7 +30,7 @@ npm run dev
 
 That's it. Your local version will be up and running in seconds, and any changes you make will reflect instantly in the browser.
 
-Once you're happy with your tweaks, simply open a **pull request** to push your changes.
+Once you're happy with your tweaks, you can host the website on your own server/domain or a cloud server.
 
 ---
 
