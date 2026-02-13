@@ -185,15 +185,21 @@ const ValentineLanding = ({ onYesClick, onNoClick }: ValentineLandingProps) => {
         </div>
       </motion.div>
 
-      {/* Decorative elements */}
-      <motion.p
-        className="absolute bottom-8 text-muted-foreground text-sm font-body z-10"
+      {/* Decorative elements & privacy notice */}
+      <motion.footer
+        className="absolute bottom-8 left-4 right-4 text-center z-10"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.5 }}
       >
-        Made with 💕 by Rishabh
-      </motion.p>
+        <p className="text-muted-foreground text-sm font-body">
+          Made with 💕 by Rishabh
+        </p>
+        <p className="text-muted-foreground/70 text-xs font-body mt-1 max-w-md mx-auto">
+          This is a private website. Photos are personal and not intended for
+          public distribution.
+        </p>
+      </motion.footer>
     </div>
   );
 };
