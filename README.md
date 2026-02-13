@@ -5,6 +5,7 @@ Ever wanted to ask your crush out for Valentine's Day but didn't know how to mak
 That's exactly what this is, a sweet, simple interactive page where your significant other clicks through to find out you want them to be your Valentine. No awkward texts. No fumbled words. Just a fun little surprise they won't forget.
 
 **Live Demo:** [datevalentine.vercel.app](https://www.datevalentine.vercel.app)
+**Backup Server:** [my-valentine-date.pages.dev](https://my-valentine-date.pages.dev/)
 
 ---
 
